@@ -1,10 +1,11 @@
 import React from 'react';
-import {Theme, withStyles} from '@material-ui/core/styles'
-import { Card, Icon, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
+import { Theme, withStyles } from '@material-ui/core/styles'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { Stock } from '../../store/enums/stock.enums';
 import { Item } from  '../../components/item/Item';
 import { ItemQuantityControl } from '../../components/item-quantity-control/ItemQuantityControl';
+import { reduceStock } from '../../store/actions/stock.action';
 
 const ws = withStyles((theme: Theme) => ({
   root: {
@@ -62,7 +63,32 @@ export class Home extends React.Component<any, any> {
     this.setState({
       open: false,
     });
-  } 
+  }
+  
+  handleSubmit = () => {
+    console.log('selected item', this.state.selectedItem);
+    const { key, sugarNeededForDrink, milkNeededForDrink } = this.state.selectedItem;
+    this.props.reduceStock({
+      itemName: key,
+      quantity: 1,
+    });
+
+    if (sugarNeededForDrink) {
+      this.props.reduceStock({
+        itemName: Stock.sugar,
+        quantity: sugarNeededForDrink,
+      });
+    }
+
+    if (milkNeededForDrink) {
+      this.props.reduceStock({
+        itemName: Stock.milk,
+        quantity: milkNeededForDrink,
+      });
+    }
+
+    this.handleClose();
+  }
 
   render() {
     const { 
@@ -136,7 +162,7 @@ export class Home extends React.Component<any, any> {
           }
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={this.handleSubmit} color="primary">
             Submit
           </Button>
           <Button onClick={this.handleClose} color="primary" autoFocus>
@@ -157,6 +183,14 @@ const mapStateToProps = (state: any) => {
     quantityOfSugar: stock.get(Stock.sugar),
     quantityOfMilk: stock.get(Stock.milk),
   }
-}
+};
 
-export default ws(connect(mapStateToProps)(Home));
+const mapDispatchToProps = ((dispatch: Function) => {
+  return {
+    reduceStock: (payload: any) => {
+      dispatch(reduceStock(payload));
+    }
+  }
+})
+
+export default ws(connect(mapStateToProps, mapDispatchToProps)(Home));
