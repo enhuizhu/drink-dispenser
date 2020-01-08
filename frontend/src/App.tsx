@@ -1,15 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import store from './store/store';
-
+import Home from './pages/home/Home';
 import './App.css';
-
-const Home = () => {
-  return <div>
-    home
-  </div>;
-}
 
 const Maintain = () => {
   return <div>Maintain Page</div>;
