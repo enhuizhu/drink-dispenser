@@ -11,19 +11,21 @@ const ws = withStyles((theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90vw',
-    height: '90vh',
+    width: '100vw',
+    height: '100vh',
     background: theme.palette.background.paper
   },
   listItem: {
     width: 100,
     textAlign: 'center',
-    marginRight: 40,
     padding: 10,
     cursor: 'pointer',
     position: 'relative',
     '&:hover': {
       top: -10,
+    },
+    '&:not(:last-child)': {
+      marginRight: 40,
     }
   },
   icon: {
