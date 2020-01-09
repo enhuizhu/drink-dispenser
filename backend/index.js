@@ -11,7 +11,7 @@ router
   .get('/', (ctx) => {
     ctx.body = 'test';
   })
-  .post('/api/temperature', (ctx) => {
+  .post('/api/temperatures', (ctx) => {
     ctx.body = { 
       success : 'submitted successfully',
     } 

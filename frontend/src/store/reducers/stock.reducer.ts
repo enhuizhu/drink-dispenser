@@ -1,6 +1,11 @@
 import { Map } from 'immutable';
 import { Stock } from '../enums/stock.enums';
 import { REDUCE_STOCK } from '../actions/stock.action';
+import NotificationService from '../../services/NotificationService';
+import { WARNING, NOTIFICATION } from '../../constants/notification.constant';
+import { AppUtil } from '../../utils/app.util';
+import { MACHINE_CONFIG } from '../../config/machine.config';
+import { ApiService } from '../../services/ApiService';
 
 const initialState: any = Map({
   [Stock.tea]: 30,
@@ -15,6 +20,23 @@ export default (state = initialState, {type, payload}: any) => {
       const {itemName, quantity} = payload;
       let itemNumber = state.get(itemName);
       itemNumber -= quantity;
+
+      if (itemNumber < 25) {
+        NotificationService.pub(NOTIFICATION, {
+          msg: AppUtil.getLowerStockInfo(state, MACHINE_CONFIG.limit),
+          msgType: WARNING
+        });
+
+        // need to send info to api
+        ApiService.postLowStockAlert({
+          machine_id: MACHINE_CONFIG.id,
+          timestamp: +(new Date()) + '',
+          stock: AppUtil.getLowerStockRequestPayload(state, MACHINE_CONFIG.limit),
+        }).then(res => {
+          console.log('lower stock response', res);
+        }).catch(console.error);
+      }
+
       return state.set(itemName, itemNumber);
     default:
       return state;
