@@ -17,14 +17,14 @@ router
     } 
   })
   .get('/api/temperature', (ctx) => {
-    const baseTimestamp = 1576668793061;
+    const baseTimestamp = +(new Date());
     const response = {
       'temps':[   
       ]
     };
 
     for(let i = 0; i < 30; i++) {
-      response.temps.push({'timestamp': (baseTimestamp + 1000 * 60 * i).toString(), 'temp': 90 + (Math.round(Math.random() * 10))});
+      response.temps.push({'timestamp': (baseTimestamp - 1000 * 60 * i).toString(), 'temp': 90 + (Math.round(Math.random() * 10))});
     }
 
     ctx.body = response;

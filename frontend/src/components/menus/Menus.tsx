@@ -6,9 +6,6 @@ const drawerWidth = 200;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: 'flex',
-    },
     menuButton: {
       position: 'fixed',
       top: 10,
@@ -70,5 +67,4 @@ export const Menus = () => {
       </List>
     </Drawer>
   </div>
-
 };
