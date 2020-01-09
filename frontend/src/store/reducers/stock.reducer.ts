@@ -23,7 +23,7 @@ export default (state = initialState, {type, payload}: any) => {
 
       const newState = state.set(itemName, itemNumber);
 
-      if (itemNumber < 25) {
+      if (itemNumber < MACHINE_CONFIG.limit) {
         NotificationService.pub(NOTIFICATION, {
           msg: AppUtil.getLowerStockInfo(newState, MACHINE_CONFIG.limit),
           msgType: WARNING
