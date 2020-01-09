@@ -4,6 +4,7 @@ import { reduceStock } from './actions/stock.action';
 
 describe('test store', () => {
   it('test stock reducer', () => {
+    console.log('test store');
     let stock = store.getState().stock;
 
     expect(stock.get(Stock.coffee)).toBe(30);

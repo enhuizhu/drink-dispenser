@@ -66,7 +66,6 @@ export class Home extends React.Component<any, any> {
   }
   
   handleSubmit = () => {
-    console.log('selected item', this.state.selectedItem);
     const { key, sugarNeededForDrink, milkNeededForDrink } = this.state.selectedItem;
     this.props.reduceStock({
       itemName: key,
@@ -144,7 +143,7 @@ export class Home extends React.Component<any, any> {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{this.state.selectedItem.name}</DialogTitle>
+        <DialogTitle id="alert-dialog-title" className="text-center">{this.state.selectedItem.name}</DialogTitle>
         <DialogContent className={classes.dialog}>
           {
             itemsNeedForDrink.map((itemNeedForDrink, index) => (
