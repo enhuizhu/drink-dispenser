@@ -21,9 +21,11 @@ export default (state = initialState, {type, payload}: any) => {
       let itemNumber = state.get(itemName);
       itemNumber -= quantity;
 
+      const newState = state.set(itemName, itemNumber);
+
       if (itemNumber < 25) {
         NotificationService.pub(NOTIFICATION, {
-          msg: AppUtil.getLowerStockInfo(state, MACHINE_CONFIG.limit),
+          msg: AppUtil.getLowerStockInfo(newState, MACHINE_CONFIG.limit),
           msgType: WARNING
         });
 
@@ -31,13 +33,13 @@ export default (state = initialState, {type, payload}: any) => {
         ApiService.postLowStockAlert({
           machine_id: MACHINE_CONFIG.id,
           timestamp: +(new Date()) + '',
-          stock: AppUtil.getLowerStockRequestPayload(state, MACHINE_CONFIG.limit),
+          stock: AppUtil.getLowerStockRequestPayload(newState, MACHINE_CONFIG.limit),
         }).then(res => {
           console.log('lower stock response', res);
         }).catch(console.error);
       }
 
-      return state.set(itemName, itemNumber);
+      return newState;
     default:
       return state;
   }

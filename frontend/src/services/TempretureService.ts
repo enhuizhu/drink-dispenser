@@ -3,10 +3,9 @@ import { MACHINE_CONFIG } from '../config/machine.config';
 
 export class TempretureService {
   private static interval : any;
-  private static timeInterval = 1000;
   
   static start() {
-    this.interval = setInterval(this.sendTempreture.bind(this), this.timeInterval);
+    this.interval = setInterval(this.sendTempreture.bind(this), MACHINE_CONFIG.tempretureInterValTime);
   }
 
   static stop() {
@@ -19,7 +18,7 @@ export class TempretureService {
       timestamp: (+(new Date()) + '') ,
       temperature: this.getTempreature() + '',
     }).then(res => {
-      console.log('---- tempreture has been sent to server successfully! ---');
+      console.log('tempreture post response', res);
     }).catch(e => {
       console.error(e);
     })

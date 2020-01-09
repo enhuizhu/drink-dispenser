@@ -14,14 +14,17 @@ export class AppUtil {
 
         limitedItems.push(key);
       }
-
-      if (msg.length > 0 && limitedItems.length > 0) {
-        msg += limitedItems.length > 1 ? 'are' : 'is';
-        msg += ' low.';
-      }
-
-      return msg;
     });
+
+    if (msg.length > 0 && limitedItems.length > 0) {
+      msg += `${limitedItems.join(',')} `;
+      msg += limitedItems.length > 1 ? 'are' : 'is';
+      msg += ' low.';
+    }
+
+    console.log('msg', msg);
+    
+    return msg;
   }
 
   static getLowerStockRequestPayload(stock: any, limit: number) {
@@ -37,10 +40,10 @@ export class AppUtil {
           stock: quantity,
         });
       }
-
-      return lowerStockItems;
     });
 
+    console.log('items', lowerStockItems);
 
+    return lowerStockItems;
   }
 }
